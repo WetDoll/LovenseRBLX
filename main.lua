@@ -59,7 +59,6 @@ end
 function Lovense.Domain()
     print(Lovense.Host);
 end
-
 function Lovense.GetBattery()
     local Req = game:HttpGet(Lovense.Host .. "/Battery");
     local Response = HttpService:JSONDecode(Req);
@@ -70,12 +69,12 @@ end
 --Functions for handling vibration & rotation requests
 function Lovense.Vibrate(speed, length)
     if speed > 20 then -- Max intensity is 20
-        print'[Lovense] Intensity is too high! Please use a number between 0 - 20.';
-        return end
+        print('[Lovense] Intensity is too high! Please use a number between 0 - 20.');
+        return 
     else
         -- <3
     end
-
+    
     local Req = game:HttpGet(Lovense.Host .. "/AVibrate?v=" .. speed .. "&sec=" .. length);
     local Response = HttpService:JSONDecode(Req);
 
@@ -90,8 +89,8 @@ end
 
 function Lovense.Rotate(speed, length)
     if speed > 20 then
-        print'[Lovense] Intensity is too high! Please use a number between 0 - 20.';
-        return end
+        print('[Lovense] Intensity is too high! Please use a number between 0 - 20.');
+        return 
     else
         -- <3
     end
