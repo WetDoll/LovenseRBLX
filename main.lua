@@ -17,8 +17,10 @@ Lovense.debugmode = false;
 Lovense.AutoObtainHost = true;
 Lovense.Host = "";
 
+local HttpService = game:GetService("HttpService")
+
 function Lovense.GetHost()
-    local Req = game:HttpGet("https://api.lovense.com/api/lan/getToys")
+    local Req = HttpService:GetAsync("https://api.lovense.com/api/lan/getToys")
     local Response = HttpService:JSONDecode(Req);
 
     local domain = Response.domain;
@@ -33,7 +35,7 @@ function Lovense.GetHost()
     end
 
     if domain == nil then
-        return "Error"
+        error("Error")
     else
         return domain..":".. port
     end
@@ -42,11 +44,11 @@ end
 if Lovense.AutoObtainHost == true then
     Lovense.Host = Lovense.GetHost();
 else
-    return "Error"
+    error("Error")
 end
 
 function Lovense.GetToyInfo()
-    local Req = game:HttpGet(Lovense.Host .. "/GetToys")
+    local Req = HttpService:GetAsync(Lovense.Host .. "/GetToys")
     local Response = HttpService:JSONDecode(Req);
     if Lovense.debugmode == true then
         print(Response.data)
@@ -60,7 +62,7 @@ function Lovense.Domain()
     print(Lovense.Host);
 end
 function Lovense.GetBattery()
-    local Req = game:HttpGet(Lovense.Host .. "/Battery");
+    local Req = HttpService:GetAsync(Lovense.Host .. "/Battery");
     local Response = HttpService:JSONDecode(Req);
     print("Battery Output: " .. Response.battery);
     return Response.battery
@@ -75,33 +77,13 @@ function Lovense.Vibrate(speed, length)
         -- <3
     end
     
-    local Req = game:HttpGet(Lovense.Host .. "/AVibrate?v=" .. speed .. "&sec=" .. length);
+    local Req = HttpService:GetAsync(Lovense.Host .. "/AVibrate?v=" .. speed .. "&sec=" .. length);
     local Response = HttpService:JSONDecode(Req);
 
     print("[Lovense] Started vibrating at speed " .. speed .. " for " .. length .. " seconds.");
 
     if Lovense.debugmode == true then
         print(Response.data);
-    else
-        -- <3
-    end
-end
-
-function Lovense.Rotate(speed, length)
-    if speed > 20 then
-        print('[Lovense] Intensity is too high! Please use a number between 0 - 20.');
-        return 
-    else
-        -- <3
-    end
-
-    local Req = game:HttpGet(Lovense.Host .. "/ARotate?v=" .. speed .. "&sec=" .. length);
-    local Response = HttpService:JSONDecode(Req);
-
-    print("[Lovense] Started rotating at speed " .. speed .. " for " .. length .. " seconds.");
-
-    if Lovense.debugmode == true then
-        print(Response.data)
     else
         --
     end
